@@ -107,7 +107,7 @@
           </v-btn>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col cols="auto" class="px-0">
+        <v-col v-if="formStep < workerNumber" cols="auto" class="px-0">
           <v-btn fab elevation="0" color="white" class="my-2" @click="nextStep">
             <v-icon dark large color="teal darken-3">mdi-chevron-right</v-icon>
           </v-btn>
@@ -150,7 +150,9 @@ export default {
   },
   methods: {
     nextStep() {
-      this.formStep++;
+      if (this.formStep < this.workerNumber) {
+          this.formStep++;
+      }
     },
     previousStep() {
       if (this.formStep >= 1) {
