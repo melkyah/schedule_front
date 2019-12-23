@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-container fluid id="step-1" class="py-0">
-      <v-row class="py-0">
+      <v-row v-if="formStep == 1" class="py-0">
         <v-col class="py-0">
           <h2
             class="mx-auto mt-0 mb-4 headline text-center white--text font-weight-bold"
