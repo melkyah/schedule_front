@@ -60,13 +60,18 @@
                 color="teal darken-3"
                 track-color="teal lighten-3"
                 class="mx-4 my-0"
-              ></v-slider>
-              <p
-                style="color:#004D40"
-                class="mx-auto mb-1 headline text-center"
               >
-                {{ workerNumber }}
-              </p>
+              <template v-slot:append>
+              <v-text-field
+                v-model="workerNumber"
+                class="mt-0 pt-0"
+                hide-details
+                single-line
+                type="number"
+                style="width: 35px"
+              ></v-text-field>
+            </template>
+              </v-slider>
             </v-card>
             <v-expand-transition
               v-for="worker in workerList"
