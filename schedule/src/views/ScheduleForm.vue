@@ -61,16 +61,17 @@
                 track-color="teal lighten-3"
                 class="mx-4 my-0"
               >
-              <template v-slot:append>
-              <v-text-field
-                v-model="workerNumber"
-                class="mt-0 pt-0"
-                hide-details
-                single-line
-                type="number"
-                style="width: 35px"
-              ></v-text-field>
-            </template>
+                <template v-slot:append>
+                  <v-text-field
+                    v-model="workerNumber"
+                    :rules="workerNumberConstraint"
+                    class="mt-0 pt-0"
+                    hide-details
+                    single-line
+                    type="number"
+                    style="width: 35px"
+                  ></v-text-field>
+                </template>
               </v-slider>
             </v-card>
             <v-expand-transition
@@ -149,14 +150,19 @@ export default {
     },
     nameConstraint() {
       return [
-        v => v.length <= this.maxNameCharacters || "Maximo 32 caracteres"
+        v => v.length <= this.maxNameCharacters || "Maximo 32 caracteres."
+      ];
+    },
+    workerNumberConstraint() {
+      return [
+        v => v <= this.maxWorkers || `Maximo ${this.maxWorkers} residentes.`
       ];
     }
   },
   methods: {
     nextStep() {
       if (this.formStep < this.workerNumber) {
-          this.formStep++;
+        this.formStep++;
       }
     },
     previousStep() {
