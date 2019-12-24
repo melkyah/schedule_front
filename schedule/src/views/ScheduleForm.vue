@@ -123,7 +123,7 @@
             <v-card-title
               style="color:white; background-color:#00695C"
               class="subtitle-1 mx-auto py-1"
-              >Cantidad de residentes</v-card-title
+              >Cantidad de residentes por dia</v-card-title
             >
             <div class="mb-4" v-for="(day, index) in weekdayNames" :key="index">
               <v-card-title
