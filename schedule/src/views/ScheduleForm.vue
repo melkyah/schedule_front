@@ -45,16 +45,18 @@
           <h2
             class="mx-auto mt-0 mb-4 headline text-center white--text font-weight-bold"
           >
-            PASO 1
+            INICIO
           </h2>
           <v-card
             max-width="600"
             min-width="310"
             flat
             color="white"
-            class="mx-auto py-1"
+            class="mx-auto py-0"
           >
-            <v-card-title style="color:#004D40" class="headline mx-auto"
+            <v-card-title
+              style="color:white; background-color:#00695C"
+              class="subtitle-1 mx-auto py-1"
               >Numero de residentes</v-card-title
             >
             <v-slider
@@ -63,7 +65,7 @@
               :max="maxWorkers"
               color="teal darken-3"
               track-color="teal lighten-3"
-              class="mx-4 my-0"
+              class="mx-4 mt-5"
             >
               <template v-slot:append>
                 <v-text-field
@@ -77,6 +79,67 @@
                 ></v-text-field>
               </template>
             </v-slider>
+            <v-card-title
+              style="color:white; background-color:#00695C"
+              class="subtitle-1 mx-auto py-1"
+              >Numero de guardias</v-card-title
+            >
+            <v-slider
+              v-model="workDayNumber"
+              :min="minDays"
+              :max="maxDays"
+              color="teal darken-3"
+              track-color="teal lighten-3"
+              class="mx-4 mt-5"
+            >
+              <template v-slot:append>
+                <v-text-field
+                  v-model="workDayNumber"
+                  :rules="workDayNumberConstraint"
+                  class="mt-0 pt-0"
+                  hide-details
+                  single-line
+                  type="number"
+                  style="width: 35px"
+                ></v-text-field>
+              </template>
+            </v-slider>
+            <v-card-title
+              style="color:white; background-color:#00695C"
+              class="subtitle-1 mx-auto py-1"
+              >Viernes + Domingo</v-card-title
+            >
+            <v-row class="mx-auto px-2"
+              ><v-col>
+                <v-switch
+                  :label="fridaySundayString"
+                  color="teal darken-3"
+                  flat
+                  inset
+                  v-model="fridaySunday"
+                  class="mx-auto"
+                ></v-switch> </v-col
+            ></v-row>
+            <v-card-title
+              style="color:white; background-color:#00695C"
+              class="subtitle-1 mx-auto py-1"
+              >Cantidad de residentes</v-card-title
+            >
+            <div class="mb-4" v-for="(day, index) in weekdayNames" :key="index">
+              <v-card-title
+                style="color:white; background-color:#80CBC4"
+                class="subtitle-1 mx-auto py-1"
+                >{{ day }}</v-card-title
+              >
+              <v-select
+                filled
+                label="Seleccione"
+                :items="workersNumberArray"
+                v-model="workersPerDay[index]"
+                class="mx-4 mt-5"
+              >
+              </v-select>
+            </div>
           </v-card>
           <transition
             appear
@@ -90,13 +153,15 @@
               max-width="500"
               flat
               color="white"
-              class="mx-auto my-2 py-1"
+              class="mx-auto my-2 py-0"
             >
-              <v-card-title style="color:#004D40" class="title"
+              <v-card-title
+                style="color:white; background-color:#00695C"
+                class="subtitle-1 mx-auto py-1"
                 >Residente {{ worker.id }}</v-card-title
               >
               <v-text-field
-                class="mx-4"
+                class="mx-4 my-3"
                 filled
                 label="Nombre"
                 v-model="worker.name"
@@ -167,10 +232,23 @@ export default {
   data() {
     return {
       workerNumber: 0,
-      minWorkers: 0,
+      workDayNumber: 8,
+      minWorkers: 1,
       maxWorkers: 10,
+      minDays: 0,
+      maxDays: 8,
       formStep: 0,
-      maxNameCharacters: 32
+      maxNameCharacters: 32,
+      fridaySunday: false,
+      weekdayNames: [
+        "Lunes",
+        "Martes",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado",
+        "Domingo"
+      ]
     };
   },
   computed: {
@@ -187,6 +265,24 @@ export default {
       });
       return populatedList;
     },
+    fridaySundayString() {
+      if (this.fridaySunday) {
+        return "Si";
+      } else {
+        return "No";
+      }
+    },
+    workersPerDay() {
+      return Array(this.weekdayNames.length).fill(this.minWorkers);
+    },
+    workersNumberArray() {
+      let temp = Array(this.workerNumber);
+
+      for (let i = 0; i < temp.length; i++) {
+        temp[i] = i + 1;
+      }
+      return temp;
+    },
     nameConstraint() {
       return [
         v => v.length <= this.maxNameCharacters || "Maximo 32 caracteres."
@@ -195,6 +291,14 @@ export default {
     workerNumberConstraint() {
       return [
         v => v <= this.maxWorkers || `Maximo ${this.maxWorkers} residentes.`
+      ];
+    },
+    workDayNumberConstraint() {
+      return [v => v <= this.maxDays || `Maximo ${this.maxDays} dias.`];
+    },
+    weekdayWorkersConstraint() {
+      return [
+        v => v <= this.workerNumber || `Maximo ${this.workerNumber} residentes.`
       ];
     }
   },

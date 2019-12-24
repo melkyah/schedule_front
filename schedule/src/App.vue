@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="teal darken-3" dark>
+    <v-app-bar height="80" app color="teal darken-3" dark>
       <v-container class="mx-auto">
         <v-toolbar-title>Calendario de residentes</v-toolbar-title>
       </v-container>
