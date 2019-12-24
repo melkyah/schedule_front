@@ -114,12 +114,7 @@
       enter-active-class="animated fadeInUp faster"
       leave-active-class="animated fadeOutDown faster"
     >
-      <v-footer
-        v-if="workerNumber > 0"
-        fixed
-        class="mx-auto py-0"
-        color="teal darken-3"
-      >
+      <v-footer fixed class="mx-auto py-0" color="teal darken-3">
         <v-row align-content="center" class="mx-auto" id="nav-var">
           <v-spacer></v-spacer>
           <v-col v-show="formStep >= 0" cols="auto" class="px-6">
