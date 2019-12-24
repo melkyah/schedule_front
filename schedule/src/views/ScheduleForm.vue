@@ -300,7 +300,20 @@ export default {
       return [
         v => v <= this.workerNumber || `Maximo ${this.workerNumber} residentes.`
       ];
-    }
+    },
+    request() {
+     let request = {
+       "data": {
+         "residents": this.workersNumberArray,
+         "friday_sunday": this.fridaySunday,
+         "times_to_work": this.workDayNumber,
+         "people_per_day": this.workersPerDay,
+         "month": "",
+         "calendar": []
+       },
+     }
+     return request
+    },
   },
   methods: {
     nextStep() {
