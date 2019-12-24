@@ -34,7 +34,7 @@
         </v-row>
       </v-expand-x-transition>
     </v-container>
-    <v-container fluid class="py-0">
+    <v-container fluid class="pt-0 mb-10">
       <v-expand-x-transition>
         <v-row v-if="formStep == 0" class="py-0">
           <v-col class="py-0">
@@ -100,26 +100,34 @@
           </v-col>
         </v-row>
       </v-expand-x-transition>
-      <v-row align-content="center" class="mx-1" id="nav-var">
-        <v-col v-if="formStep > 0" cols="auto" class="px-0">
+    </v-container>
+    <v-footer fixed class="mx-auto py-0 px-" color="teal darken-3">
+      <v-row align-content="center" class="mx-auto" id="nav-var">
+        <v-spacer></v-spacer>
+        <v-col v-if="formStep > 0" cols="auto" class="px-6">
           <v-btn
             fab
             elevation="0"
             color="white"
-            class="my-2"
+            class="my-0"
             @click="previousStep"
           >
             <v-icon dark large color="teal darken-3">mdi-chevron-left</v-icon>
           </v-btn>
         </v-col>
-        <v-spacer></v-spacer>
-        <v-col v-if="formStep < workerNumber" cols="auto" class="px-0">
-          <v-btn fab elevation="0" color="white" class="my-2" @click="nextStep">
+        <v-col v-if="formStep > 0" cols="auto" class="px-0">
+          <v-btn fab elevation="0" color="white" class="my-0" @click="goHome">
+            <v-icon dark large color="teal darken-3">mdi-home</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col v-if="formStep < workerNumber" cols="auto" class="px-6 py-2">
+          <v-btn fab elevation="0" color="white" class="my-0" @click="nextStep">
             <v-icon dark large color="teal darken-3">mdi-chevron-right</v-icon>
           </v-btn>
         </v-col>
+        <v-spacer></v-spacer>
       </v-row>
-    </v-container>
+    </v-footer>
   </v-form>
 </template>
 
@@ -168,6 +176,11 @@ export default {
     previousStep() {
       if (this.formStep >= 1) {
         this.formStep--;
+      }
+    },
+    goHome() {
+      if (this.formStep >= 1) {
+        this.formStep = 0;
       }
     }
   }
