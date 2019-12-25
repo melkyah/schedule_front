@@ -9,7 +9,7 @@
     <v-content id="app-content" class="teal ligthen-3 mx-auto">
       <v-container fluid>
         <v-row>
-          <v-col>
+          <v-col class="py-0">
             <ScheduleForm />
           </v-col>
         </v-row>

@@ -15,12 +15,12 @@
         <v-row class="py-0">
           <v-col class="py-0">
             <h2
-              class="mx-auto mt-0 mb-4 headline text-center white--text font-weight-bold"
+              class="mx-auto mt-0 my-0 title text-center white--text"
             >
-              PASO {{ worker.id + 1 }}
+              RESIDENTE {{ worker.id }}
             </h2>
             <h3
-              class="mx-auto mt-0 mb-4 subtitle text-center white--text font-weight-bold"
+              class="mx-auto mt-0 mb-2 subtitle-1 text-center white--text"
             >
               {{ worker.name }}
             </h3>
@@ -43,7 +43,7 @@
       <v-row v-show="formStep == 0" class="py-0">
         <v-col class="py-0">
           <h2
-            class="mx-auto mt-0 mb-4 headline text-center white--text font-weight-bold"
+            class="mx-auto mt-0 mb-1 title text-center white--text"
           >
             INICIO
           </h2>
