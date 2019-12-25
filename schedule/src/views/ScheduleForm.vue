@@ -279,7 +279,7 @@ export default {
       let temp = Array(this.workerNumber);
 
       for (let i = 0; i < temp.length; i++) {
-        temp[i] = i + 1;
+        temp[i] = i;
       }
       return temp;
     },
