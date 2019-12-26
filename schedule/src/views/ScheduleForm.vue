@@ -14,14 +14,10 @@
       >
         <v-row class="py-0">
           <v-col class="py-0">
-            <h2
-              class="mx-auto mt-0 my-0 title text-center white--text"
-            >
+            <h2 class="mx-auto mt-0 my-0 title text-center white--text">
               RESIDENTE {{ worker.id }}
             </h2>
-            <h3
-              class="mx-auto mt-0 mb-2 subtitle-1 text-center white--text"
-            >
+            <h3 class="mx-auto mt-0 mb-2 subtitle-1 text-center white--text">
               {{ worker.name }}
             </h3>
             <v-card
@@ -42,9 +38,7 @@
     <v-container fluid class="pt-0 mb-10">
       <v-row v-show="formStep == 0" class="py-0">
         <v-col class="py-0">
-          <h2
-            class="mx-auto mt-0 mb-1 title text-center white--text"
-          >
+          <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
             INICIO
           </h2>
           <v-card
@@ -180,60 +174,31 @@
       leave-active-class="animated fadeOutDown faster"
     >
       <v-footer fixed class="mx-auto py-0" color="teal darken-3">
-        <v-row align-content="center" class="mx-auto" id="nav-var">
-          <v-spacer></v-spacer>
-          <v-col v-show="formStep >= 0" cols="auto" class="px-6">
-            <v-btn
-              fab
-              :disabled="formStep == 0"
-              elevation="0"
-              color="white"
-              class="my-0 animated fadeIn fast"
-              @click="previousStep"
-            >
-              <v-icon dark large color="teal darken-3">mdi-chevron-left</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col v-show="formStep >= 0" cols="auto" class="px-0">
-            <v-btn
-              fab
-              :disabled="formStep == 0"
-              elevation="0"
-              color="white"
-              class="my-0 animated fadeIn fast"
-              @click="goHome"
-            >
-              <v-icon dark large color="teal darken-3">mdi-home</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col v-show="formStep <= workerNumber" cols="auto" class="px-6">
-            <v-btn
-              fab
-              :disabled="formStep == workerNumber"
-              elevation="0"
-              color="white"
-              class="my-0 animated fadeIn fast"
-              @click="nextStep"
-            >
-              <v-icon dark large color="teal darken-3"
-                >mdi-chevron-right</v-icon
-              >
-            </v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
-        </v-row>
+        <navBar
+          :formStep="formStep"
+          :workerNumber="workerNumber"
+          @nextStep="nextStep"
+          @previousStep="previousStep"
+          @goHome="goHome"
+        ></navBar>
       </v-footer>
     </transition>
   </v-form>
 </template>
 
 <script>
+import navBar from "../components/navBar.vue";
+
 export default {
+  components: {
+    navBar
+  },
+
   data() {
     return {
       workerNumber: 0,
-      workDayNumber: 8,
-      minWorkers: 1,
+      workDayNumber: 0,
+      minWorkers: 0,
       maxWorkers: 10,
       minDays: 0,
       maxDays: 8,
