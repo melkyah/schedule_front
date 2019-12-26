@@ -4,7 +4,7 @@
       <v-row class="py-0">
         <v-col class="py-0">
           <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
-            INICIO
+            Inicio
           </h2>
           <v-card
             max-width="600"
@@ -148,6 +148,14 @@
         </v-row>
       </v-container>
     </transition>
+    <calendar-pickers
+      v-for="worker in workerList"
+      v-bind:key="worker.id"
+      :formStep="formStep"
+      :workerId="worker.id"
+      :name="worker.name"
+      @updateDays="updateFreeDays"
+    ></calendar-pickers>
     <transition
       appear
       name="footer-animation"
@@ -169,10 +177,12 @@
 
 <script>
 import navBar from "../components/navBar.vue";
+import calendarPickers from "../components/calendarPickers.vue";
 
 export default {
   components: {
-    navBar
+    navBar,
+    calendarPickers
   },
 
   data() {
@@ -201,7 +211,8 @@ export default {
     workerList() {
       let worker = {
         name: "",
-        id: 0
+        id: 0,
+        freeDays: []
       };
       let baseList = Array(this.workerNumber).fill(worker);
       let populatedList = baseList.map((i, index) => {
@@ -276,6 +287,10 @@ export default {
       if (this.formStep >= 1) {
         this.formStep = 0;
       }
+    },
+    updateFreeDays(data) {
+      let workerIndex = (data.workerId - 1)
+      this.workerList[workerIndex].freeDays = data.dates
     }
   }
 };
