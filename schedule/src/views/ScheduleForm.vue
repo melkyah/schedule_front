@@ -7,7 +7,7 @@
       class="py-0"
     >
       <transition
-        v-if="formStep == worker.id"
+        v-if="formStep == worker.id + 1"
         appear
         name="form-animation"
         enter-active-class="animated fadeIn fast"
@@ -35,8 +35,8 @@
         </v-row>
       </transition>
     </v-container>
-    <v-container fluid class="pt-0 mb-10">
-      <v-row v-show="formStep == 0" class="py-0">
+    <v-container v-show="formStep == 0" fluid class="pt-0 mb-10">
+      <v-row class="py-0">
         <v-col class="py-0">
           <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
             INICIO
@@ -135,38 +135,54 @@
               </v-select>
             </div>
           </v-card>
-          <transition
-            appear
-            name="card-animation"
-            enter-active-class="animated fadeInDown faster"
-            leave-active-class="animated fadeOutUp faster"
-            v-for="worker in workerList"
-            v-bind:key="worker.id"
-          >
-            <v-card
-              max-width="500"
-              flat
-              color="white"
-              class="mx-auto my-2 py-0"
-            >
-              <v-card-title
-                style="color:white; background-color:#00695C"
-                class="subtitle-1 mx-auto py-1"
-                >Residente {{ worker.id }}</v-card-title
-              >
-              <v-text-field
-                class="mx-4 my-3"
-                filled
-                label="Nombre"
-                v-model="worker.name"
-                :rules="nameConstraint"
-                counter="32"
-              ></v-text-field>
-            </v-card>
-          </transition>
         </v-col>
       </v-row>
     </v-container>
+    <transition
+      appear
+      name="form-animation"
+      enter-active-class="animated fadeIn fast"
+    >
+      <v-container v-show="formStep == 1" fluid class="pt-0 mb-10">
+        <v-row class="py-0">
+          <v-col class="py-0">
+            <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
+              Datos de residentes
+            </h2>
+            <transition
+              appear
+              name="card-animation"
+              enter-active-class="animated fadeInDown faster"
+              leave-active-class="animated fadeOutUp faster"
+              v-for="worker in workerList"
+              v-bind:key="worker.id"
+            >
+              <v-card
+                max-width="600"
+                min-width="310"
+                flat
+                color="white"
+                class="mx-auto my-2 py-0"
+              >
+                <v-card-title
+                  style="color:white; background-color:#00695C"
+                  class="subtitle-1 mx-auto py-1"
+                  >Residente {{ worker.id }}</v-card-title
+                >
+                <v-text-field
+                  class="mx-4 my-3"
+                  filled
+                  label="Nombre"
+                  v-model="worker.name"
+                  :rules="nameConstraint"
+                  counter="32"
+                ></v-text-field>
+              </v-card>
+            </transition>
+          </v-col>
+        </v-row>
+      </v-container>
+    </transition>
     <transition
       appear
       name="footer-animation"
@@ -282,7 +298,7 @@ export default {
   },
   methods: {
     nextStep() {
-      if (this.formStep < this.workerNumber) {
+      if (this.formStep < this.workerNumber + 1) {
         this.formStep++;
       }
     },

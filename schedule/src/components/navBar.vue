@@ -2,7 +2,7 @@
   <v-container class="py-0">
     <v-row align-content="center" class="mx-auto" id="nav-var">
       <v-spacer></v-spacer>
-      <v-col v-show="formStep >= 0" cols="auto" class="px-6">
+      <v-col cols="auto" class="px-6">
         <v-btn
           fab
           :disabled="formStep == 0"
@@ -14,7 +14,7 @@
           <v-icon dark large color="teal darken-3">mdi-chevron-left</v-icon>
         </v-btn>
       </v-col>
-      <v-col v-show="formStep >= 0" cols="auto" class="px-0">
+      <v-col cols="auto" class="px-0">
         <v-btn
           fab
           :disabled="formStep == 0"
@@ -26,10 +26,10 @@
           <v-icon dark large color="teal darken-3">mdi-home</v-icon>
         </v-btn>
       </v-col>
-      <v-col v-show="formStep <= workerNumber" cols="auto" class="px-6">
+      <v-col cols="auto" class="px-6">
         <v-btn
           fab
-          :disabled="formStep == workerNumber"
+          :disabled="formStep == workerNumber + 1"
           elevation="0"
           color="white"
           class="my-0 animated fadeIn fast"
