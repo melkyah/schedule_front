@@ -18,7 +18,11 @@
             <v-date-picker
               class="my-0"
               v-model="dates"
+              locale="es"
+              type="date"
               @input="addFreeDay"
+              min="2020-01-01"
+              max="2020-01-31"
               multiple
               color="teal darken-3"
               width="310"

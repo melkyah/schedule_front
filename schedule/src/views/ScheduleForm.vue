@@ -6,6 +6,8 @@
           <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
             Inicio
           </h2>
+          <v-date-picker v-model="selectedMonth" color="teal darken-3"
+              width="310" locale="es" type="month"></v-date-picker>
           <v-card
             max-width="600"
             min-width="310"
@@ -204,7 +206,8 @@ export default {
         "Viernes",
         "Sabado",
         "Domingo"
-      ]
+      ],
+      selectedMonth: new Date().toISOString().substr(0, 7),
     };
   },
   computed: {
@@ -265,7 +268,8 @@ export default {
           friday_sunday: this.fridaySunday,
           times_to_work: this.workDayNumber,
           people_per_day: this.workersPerDay,
-          month: "",
+          month: this.selectedMonth.substr(5, 7),
+          year: this.selectedMonth.substr(0, 4),
           calendar: []
         }
       };
