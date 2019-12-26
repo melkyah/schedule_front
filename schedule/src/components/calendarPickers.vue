@@ -48,13 +48,13 @@ export default {
   },
   computed: {},
   methods: {
-      addFreeDay() {
-          let data = {
-              "dates": this.dates,
-              "workerId": this.workerId
-          }
-          this.$emit("updateDays", data)
-      }
+    addFreeDay() {
+      let data = {
+        dates: this.dates,
+        workerId: this.workerId
+      };
+      this.$emit("updateDays", data);
+    }
   }
 };
 </script>

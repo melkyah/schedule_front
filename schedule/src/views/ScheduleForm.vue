@@ -1,116 +1,173 @@
 <template>
   <v-form>
-    <v-container v-show="formStep == 0" fluid class="pt-0 mb-10">
-      <v-row class="py-0">
-        <v-col class="py-0">
-          <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
-            Inicio
-          </h2>
-          <v-date-picker v-model="selectedMonth" color="teal darken-3"
-              width="310" locale="es" type="month"></v-date-picker>
-          <v-card
-            max-width="600"
-            min-width="310"
-            flat
-            color="white"
-            class="mx-auto py-0"
-          >
-            <v-card-title
-              style="color:white; background-color:#00695C"
-              class="subtitle-1 mx-auto py-1"
-              >Numero de residentes</v-card-title
-            >
-            <v-slider
-              v-model="workerNumber"
-              :min="minWorkers"
-              :max="maxWorkers"
-              color="teal darken-3"
-              track-color="teal lighten-3"
-              class="mx-4 mt-5"
-            >
-              <template v-slot:append>
-                <v-text-field
-                  v-model="workerNumber"
-                  :rules="workerNumberConstraint"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  type="number"
-                  style="width: 35px"
-                ></v-text-field>
-              </template>
-            </v-slider>
-            <v-card-title
-              style="color:white; background-color:#00695C"
-              class="subtitle-1 mx-auto py-1"
-              >Numero de guardias</v-card-title
-            >
-            <v-slider
-              v-model="workDayNumber"
-              :min="minDays"
-              :max="maxDays"
-              color="teal darken-3"
-              track-color="teal lighten-3"
-              class="mx-4 mt-5"
-            >
-              <template v-slot:append>
-                <v-text-field
-                  v-model="workDayNumber"
-                  :rules="workDayNumberConstraint"
-                  class="mt-0 pt-0"
-                  hide-details
-                  single-line
-                  type="number"
-                  style="width: 35px"
-                ></v-text-field>
-              </template>
-            </v-slider>
-            <v-card-title
-              style="color:white; background-color:#00695C"
-              class="subtitle-1 mx-auto py-1"
-              >Viernes + Domingo</v-card-title
-            >
-            <v-row class="mx-auto px-2"
-              ><v-col>
-                <v-switch
-                  :label="fridaySundayString"
-                  color="teal darken-3"
-                  flat
-                  inset
-                  v-model="fridaySunday"
-                  class="mx-auto"
-                ></v-switch> </v-col
-            ></v-row>
-            <v-card-title
-              style="color:white; background-color:#00695C"
-              class="subtitle-1 mx-auto py-1"
-              >Cantidad de residentes por dia</v-card-title
-            >
-            <div class="mb-4" v-for="(day, index) in weekdayNames" :key="index">
-              <v-card-title
-                style="color:white; background-color:#80CBC4"
-                class="subtitle-1 mx-auto py-1"
-                >{{ day }}</v-card-title
-              >
-              <v-select
-                filled
-                label="Seleccione"
-                :items="workersNumberArray"
-                v-model="workersPerDay[index]"
-                class="mx-4 mt-5"
-              >
-              </v-select>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
     <transition
       appear
       name="form-animation"
       enter-active-class="animated fadeIn fast"
     >
-      <v-container v-show="formStep == 1" fluid class="pt-0 mb-10">
+      <v-container v-show="formStep == 0" fluid class="pt-0 mb-8">
+        <v-row class="py-0">
+          <v-col class="py-0">
+            <h2 class="mx-auto mt-0 mb-0 title text-center white--text">
+              Inicio
+            </h2>
+            <h2 class="mx-auto mt-0 mb-1 subtitle-1 text-center white--text">
+              Seleccione mes
+            </h2>
+            <v-date-picker
+              class="mb-3"
+              v-model="selectedMonth"
+              color="teal darken-3"
+              width="310"
+              locale="es"
+              type="month"
+              :min="currentDate.substr(0, 7)"
+            ></v-date-picker>
+          </v-col>
+        </v-row>
+      </v-container>
+    </transition>
+    <transition
+      appear
+      name="form-animation"
+      enter-active-class="animated fadeIn fast"
+    >
+      <v-container v-show="formStep == 1" fluid class="pt-0 mb-8">
+        <v-row class="py-0">
+          <v-col class="py-0">
+            <v-card
+              max-width="600"
+              min-width="310"
+              flat
+              color="white"
+              class="mx-auto py-0"
+            >
+              <v-card-title
+                style="color:white; background-color:#00695C"
+                class="subtitle-1 mx-auto py-1"
+                >Condiciones de guardia</v-card-title
+              >
+              <v-card-title
+                style="color:white; background-color:#80CBC4"
+                class="subtitle-1 mx-auto py-1"
+                >Numero de residentes</v-card-title
+              >
+              <v-slider
+                v-model="workerNumber"
+                :min="minWorkers"
+                :max="maxWorkers"
+                color="teal darken-3"
+                track-color="teal lighten-3"
+                class="mx-4 mt-5"
+              >
+                <template v-slot:append>
+                  <v-text-field
+                    v-model="workerNumber"
+                    :rules="workerNumberConstraint"
+                    class="mt-0 pt-0"
+                    hide-details
+                    single-line
+                    type="number"
+                    style="width: 35px"
+                  ></v-text-field>
+                </template>
+              </v-slider>
+              <v-card-title
+                style="color:white; background-color:#80CBC4"
+                class="subtitle-1 mx-auto py-1"
+                >Numero de guardias</v-card-title
+              >
+              <v-slider
+                v-model="workDayNumber"
+                :min="minDays"
+                :max="maxDays"
+                color="teal darken-3"
+                track-color="teal lighten-3"
+                class="mx-4 mt-5"
+              >
+                <template v-slot:append>
+                  <v-text-field
+                    v-model="workDayNumber"
+                    :rules="workDayNumberConstraint"
+                    class="mt-0 pt-0"
+                    hide-details
+                    single-line
+                    type="number"
+                    style="width: 35px"
+                  ></v-text-field>
+                </template>
+              </v-slider>
+              <v-card-title
+                style="color:white; background-color:#80CBC4"
+                class="subtitle-1 mx-auto py-1"
+                >Viernes + Domingo</v-card-title
+              >
+              <v-row class="mx-auto px-2"
+                ><v-col>
+                  <v-switch
+                    :label="fridaySundayString"
+                    color="teal darken-3"
+                    flat
+                    inset
+                    v-model="fridaySunday"
+                    class="mx-auto"
+                  ></v-switch> </v-col
+              ></v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </transition>
+    <transition
+      appear
+      name="form-animation"
+      enter-active-class="animated fadeIn fast"
+    >
+      <v-container v-show="formStep == 2" fluid class="pt-0 mb-8">
+        <v-row class="py-0">
+          <v-col class="py-0">
+            <v-card
+              max-width="600"
+              min-width="310"
+              flat
+              color="white"
+              class="mx-auto py-0"
+            >
+              <v-card-title
+                style="color:white; background-color:#00695C"
+                class="subtitle-1 mx-auto py-1"
+                >Cantidad de residentes por dia</v-card-title
+              >
+              <div
+                class="mb-4"
+                v-for="(day, index) in weekdayNames"
+                :key="index"
+              >
+                <v-card-title
+                  style="color:white; background-color:#80CBC4"
+                  class="subtitle-1 mx-auto py-1"
+                  >{{ day }}</v-card-title
+                >
+                <v-select
+                  filled
+                  label="Seleccione"
+                  :items="workersNumberArray"
+                  v-model="workersPerDay[index]"
+                  class="mx-4 mt-5"
+                >
+                </v-select>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </transition>
+    <transition
+      appear
+      name="form-animation"
+      enter-active-class="animated fadeIn fast"
+    >
+      <v-container v-show="formStep == 2" fluid class="pt-0 mb-10">
         <v-row class="py-0">
           <v-col class="py-0">
             <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
@@ -207,10 +264,14 @@ export default {
         "Sabado",
         "Domingo"
       ],
-      selectedMonth: new Date().toISOString().substr(0, 7),
+      selectedMonth: new Date().toISOString().substr(0, 7)
     };
   },
   computed: {
+    currentDate() {
+      let date = new Date().toISOString().substr(0, 10);
+      return date;
+    },
     workerList() {
       let worker = {
         name: "",
@@ -278,7 +339,7 @@ export default {
   },
   methods: {
     nextStep() {
-      if (this.formStep < this.workerNumber + 1) {
+      if (this.formStep < this.workerNumber + 2) {
         this.formStep++;
       }
     },
@@ -293,8 +354,8 @@ export default {
       }
     },
     updateFreeDays(data) {
-      let workerIndex = (data.workerId - 1)
-      this.workerList[workerIndex].freeDays = data.dates
+      let workerIndex = data.workerId - 1;
+      this.workerList[workerIndex].freeDays = data.dates;
     }
   }
 };

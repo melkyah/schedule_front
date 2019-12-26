@@ -29,7 +29,7 @@
       <v-col cols="auto" class="px-6">
         <v-btn
           fab
-          :disabled="formStep == workerNumber + 1 || workerNumber == 0"
+          :disabled="formStep == workerNumber + 1 && workerNumber == 0"
           elevation="0"
           color="white"
           class="my-0 animated fadeIn fast"
