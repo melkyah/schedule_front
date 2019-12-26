@@ -2,31 +2,45 @@
   <v-form>
     <v-container fluid class="py-0">
       <transition
-        v-if="formStep == workerId + 1"
+        v-if="formStep == workerId + 3"
         appear
         name="form-animation"
         enter-active-class="animated fadeIn fast"
       >
         <v-row class="py-0">
           <v-col class="py-0">
-            <h2 class="mx-auto mt-0 mb-0 title text-center white--text">
-              Dias sin guardia
-            </h2>
-            <h3 class="mx-auto mt-0 mb-2 subtitle-1 text-center white--text">
-              {{ name }}
-            </h3>
-            <v-date-picker
-              class="my-0"
-              v-model="dates"
-              locale="es"
-              type="date"
-              @input="addFreeDay"
-              min="2020-01-01"
-              max="2020-01-31"
-              multiple
-              color="teal darken-3"
-              width="310"
-            ></v-date-picker>
+            <v-card
+              max-width="310"
+              min-width="310"
+              flat
+              color="white"
+              class="mx-auto"
+            >
+              <v-card-title
+                style="color:white; background-color:#00695C"
+                class="subtitle-1 mx-auto py-1"
+              >
+                {{ formStep }} - Dias sin guardia
+              </v-card-title>
+              <v-card-title
+                style="color:white; background-color:#80CBC4"
+                class="subtitle-1 mx-auto py-1"
+              >
+                {{ name }}
+              </v-card-title>
+              <v-date-picker
+                v-model="dates"
+                no-title
+                locale="es"
+                type="date"
+                @input="addFreeDay"
+                :min="`${selectedMonth}-01`"
+                :picker-date="`${selectedMonth}-01`"
+                multiple
+                color="teal darken-3"
+                full-width
+              ></v-date-picker>
+            </v-card>
           </v-col>
         </v-row>
       </transition>
@@ -39,7 +53,8 @@ export default {
   props: {
     formStep: Number,
     workerId: Number,
-    name: String
+    name: String,
+    selectedMonth: String
   },
   data() {
     return {

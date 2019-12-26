@@ -8,21 +8,29 @@
       <v-container v-show="formStep == 0" fluid class="pt-0 mb-8">
         <v-row class="py-0">
           <v-col class="py-0">
-            <h2 class="mx-auto mt-0 mb-0 title text-center white--text">
-              Inicio
-            </h2>
-            <h2 class="mx-auto mt-0 mb-1 subtitle-1 text-center white--text">
-              Seleccione mes
-            </h2>
-            <v-date-picker
-              class="mb-3"
-              v-model="selectedMonth"
-              color="teal darken-3"
-              width="310"
-              locale="es"
-              type="month"
-              :min="currentDate.substr(0, 7)"
-            ></v-date-picker>
+            <v-card
+              max-width="600"
+              min-width="310"
+              flat
+              color="white"
+              class="mx-auto py-0"
+            >
+              <v-card-title
+                style="color:white; background-color:#00695C"
+                class="subtitle-1 mx-auto py-1"
+              >
+                Inicio - Seleccione mes
+              </v-card-title>
+              <v-date-picker
+                v-model="selectedMonth"
+                no-title
+                color="#00695C"
+                width="310"
+                locale="es"
+                type="month"
+                :min="currentDate.substr(0, 7)"
+              ></v-date-picker>
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -45,12 +53,12 @@
               <v-card-title
                 style="color:white; background-color:#00695C"
                 class="subtitle-1 mx-auto py-1"
-                >Condiciones de guardia</v-card-title
+                >1 - Condiciones de guardia</v-card-title
               >
               <v-card-title
                 style="color:white; background-color:#80CBC4"
                 class="subtitle-1 mx-auto py-1"
-                >Numero de residentes</v-card-title
+                >1.1 - Numero de residentes</v-card-title
               >
               <v-slider
                 v-model="workerNumber"
@@ -75,7 +83,7 @@
               <v-card-title
                 style="color:white; background-color:#80CBC4"
                 class="subtitle-1 mx-auto py-1"
-                >Numero de guardias</v-card-title
+                >1.2 - Numero de guardias</v-card-title
               >
               <v-slider
                 v-model="workDayNumber"
@@ -100,7 +108,7 @@
               <v-card-title
                 style="color:white; background-color:#80CBC4"
                 class="subtitle-1 mx-auto py-1"
-                >Viernes + Domingo</v-card-title
+                >1.3 - Viernes + Domingo</v-card-title
               >
               <v-row class="mx-auto px-2"
                 ><v-col>
@@ -136,7 +144,7 @@
               <v-card-title
                 style="color:white; background-color:#00695C"
                 class="subtitle-1 mx-auto py-1"
-                >Cantidad de residentes por dia</v-card-title
+                >2 - Cantidad de residentes por dia</v-card-title
               >
               <div
                 class="mb-4"
@@ -146,7 +154,7 @@
                 <v-card-title
                   style="color:white; background-color:#80CBC4"
                   class="subtitle-1 mx-auto py-1"
-                  >{{ day }}</v-card-title
+                  >2.{{ index + 1 }} - {{ day }}</v-card-title
                 >
                 <v-select
                   filled
@@ -167,45 +175,46 @@
       name="form-animation"
       enter-active-class="animated fadeIn fast"
     >
-      <v-container v-show="formStep == 2" fluid class="pt-0 mb-10">
-        <v-row class="py-0">
-          <v-col class="py-0">
-            <h2 class="mx-auto mt-0 mb-1 title text-center white--text">
-              Datos de residentes
-            </h2>
-            <transition
-              appear
-              name="card-animation"
-              enter-active-class="animated fadeInDown faster"
-              leave-active-class="animated fadeOutUp faster"
-              v-for="worker in workerList"
-              v-bind:key="worker.id"
-            >
+      <transition
+        appear
+        name="form-animation"
+        enter-active-class="animated fadeIn fast"
+      >
+        <v-container v-show="formStep == 3" fluid class="pt-0 mb-10">
+          <v-row class="py-0">
+            <v-col class="py-0">
               <v-card
                 max-width="600"
                 min-width="310"
                 flat
                 color="white"
-                class="mx-auto my-2 py-0"
+                class="mx-auto"
               >
                 <v-card-title
                   style="color:white; background-color:#00695C"
                   class="subtitle-1 mx-auto py-1"
-                  >Residente {{ worker.id }}</v-card-title
+                  >3 - Datos de residentes</v-card-title
                 >
-                <v-text-field
-                  class="mx-4 my-3"
-                  filled
-                  label="Nombre"
-                  v-model="worker.name"
-                  :rules="nameConstraint"
-                  counter="32"
-                ></v-text-field>
+                <div v-for="worker in workerList" v-bind:key="worker.id">
+                  <v-card-title
+                    style="color:white; background-color:#80CBC4"
+                    class="subtitle-1 mx-auto py-1"
+                    >3.{{ worker.id }} - Residente {{ worker.id }}</v-card-title
+                  >
+                  <v-text-field
+                    class="mx-4 my-3"
+                    filled
+                    label="Nombre"
+                    v-model="worker.name"
+                    :rules="nameConstraint"
+                    counter="32"
+                  ></v-text-field>
+                </div>
               </v-card>
-            </transition>
-          </v-col>
-        </v-row>
-      </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </transition>
     </transition>
     <calendar-pickers
       v-for="worker in workerList"
@@ -213,8 +222,15 @@
       :formStep="formStep"
       :workerId="worker.id"
       :name="worker.name"
+      :selectedMonth="selectedMonth"
       @updateDays="updateFreeDays"
     ></calendar-pickers>
+    <submitStep
+      v-if="formStep == workerNumber + 4"
+      :formStep="formStep"
+      :request="request"
+      :workerList="workerList"
+    ></submitStep>
     <transition
       appear
       name="footer-animation"
@@ -237,11 +253,13 @@
 <script>
 import navBar from "../components/navBar.vue";
 import calendarPickers from "../components/calendarPickers.vue";
+import submitStep from "../components/submitStep.vue";
 
 export default {
   components: {
     navBar,
-    calendarPickers
+    calendarPickers,
+    submitStep
   },
 
   data() {
@@ -300,6 +318,14 @@ export default {
       let temp = Array(this.workerNumber);
 
       for (let i = 0; i < temp.length; i++) {
+        temp[i] = i + 1;
+      }
+      return temp;
+    },
+    workersIndexArray() {
+      let temp = Array(this.workerNumber);
+
+      for (let i = 0; i < temp.length; i++) {
         temp[i] = i;
       }
       return temp;
@@ -325,7 +351,7 @@ export default {
     request() {
       let request = {
         data: {
-          residents: this.workersNumberArray,
+          residents: this.workersIndexArray,
           friday_sunday: this.fridaySunday,
           times_to_work: this.workDayNumber,
           people_per_day: this.workersPerDay,
@@ -339,7 +365,7 @@ export default {
   },
   methods: {
     nextStep() {
-      if (this.formStep < this.workerNumber + 2) {
+      if (this.formStep < this.workerNumber + 4) {
         this.formStep++;
       }
     },
